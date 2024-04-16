@@ -102,7 +102,9 @@ namespace TrainReservationSystem
                     Console.WriteLine("3. Delete Train");
                     Console.WriteLine("4. View All Bookings");
                     Console.WriteLine("5. View All Cancellations");
-                    Console.WriteLine("6. Logout");
+                    Console.WriteLine("6." +
+                        "  ViewTrain");
+                    Console.WriteLine("7. Logout");
                     Console.Write("Enter your choice: ");
                     string adminChoice = Console.ReadLine();
 
@@ -124,8 +126,12 @@ namespace TrainReservationSystem
                             ViewAllCancellations(connectionString);
                             break;
                         case "6":
+                            ViewTrain(connectionString);
+                            break;
+                        case "7":
                             Console.WriteLine("Logging out...");
-                            return;
+                            Environment.Exit(0);
+                            break;
                         default:
                             Console.WriteLine("Invalid choice.");
                             break;
@@ -156,6 +162,7 @@ namespace TrainReservationSystem
                     Console.WriteLine("1. Book Ticket");
                     Console.WriteLine("2. Cancel Ticket");
                     Console.WriteLine("3. Print Ticket");
+                    Console.WriteLine("4. Logout");
                     Console.Write("Enter your choice: ");
                     string userChoice = Console.ReadLine();
 
@@ -170,6 +177,12 @@ namespace TrainReservationSystem
                         case "3":
                             PrintTicket(connectionString);
                             break;
+                        case "4":
+                            Console.WriteLine("Logging out...");
+                            Environment.Exit(0);
+                            break;
+
+                         
                         default:
                             Console.WriteLine("Invalid choice.");
                             break;
@@ -181,6 +194,34 @@ namespace TrainReservationSystem
                 Console.WriteLine("Invalid user login credentials.");
             }
         }
+
+        static void ViewTrain(string connectionString)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    SqlCommand command = new SqlCommand("ViewTrain", connection);
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        Console.WriteLine($"TrainNumber: {reader["TrainNumber"]}, TrainName: {reader["TrainName"]}, Source: {reader["Source"]}, Destination: {reader["Destination"]}, TicketClass: {reader["TicketClass"]}, TicketPrice: {reader["TicketPrice"]}, TotalBerths: {reader["TotalBerths"]}, AvailableBerths: {reader["AvailableBerths"]}, Status: {reader["Status"]}, DepartureTime: {reader["DepartureTime"]}, ArrivalTime: {reader["ArrivalTime"]}, DaysOfOperation: {reader["DaysOfOperation"]}, Stops: {reader["Stops"]}");
+                    }
+
+                    reader.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
+        }
+    
         static void AddTrain(string connectionString)
         {
             
@@ -495,7 +536,6 @@ namespace TrainReservationSystem
                 {
                     connection.Open();
 
-                    
                     SqlCommand checkTrainStatusCommand = new SqlCommand("SELECT Status, AvailableBerths FROM Train WHERE TrainNumber = @TrainNumber", connection);
                     checkTrainStatusCommand.Parameters.AddWithValue("@TrainNumber", trainNumber);
                     SqlDataReader reader = checkTrainStatusCommand.ExecuteReader();
@@ -512,7 +552,6 @@ namespace TrainReservationSystem
                             Console.WriteLine("Enter Ticket Class:");
                             string ticketClass = Console.ReadLine();
 
-                           
                             SqlCommand checkAvailableBerthsCommand = new SqlCommand("SELECT TicketPrice FROM Train WHERE TrainNumber = @TrainNumber AND TicketClass = @TicketClass", connection);
                             checkAvailableBerthsCommand.Parameters.AddWithValue("@TrainNumber", trainNumber);
                             checkAvailableBerthsCommand.Parameters.AddWithValue("@TicketClass", ticketClass);
@@ -521,8 +560,7 @@ namespace TrainReservationSystem
                             if (classReader.Read())
                             {
                                 decimal ticketPrice = (decimal)classReader["TicketPrice"];
-
-                                classReader.Close(); 
+                                classReader.Close();
 
                                 Console.WriteLine("Enter Seat Preference:");
                                 string seatPreference = Console.ReadLine();
@@ -538,10 +576,9 @@ namespace TrainReservationSystem
 
                                 if (availableBerths >= numberOfTickets)
                                 {
-                                    
                                     decimal totalAmount = ticketPrice * numberOfTickets;
 
-                                    SqlCommand bookTicketCommand = new SqlCommand("INSERT INTO Booking (TrainNumber, TicketClass, SeatPreference, PassengerName, BookingDate, DateOfTravel, TotalAmount, NumberOfTickets, TicketPrice) VALUES (@TrainNumber, @TicketClass, @SeatPreference, @PassengerName, GETDATE(), @DateOfTravel, @TotalAmount, @NumberOfTickets, @TicketPrice)", connection);
+                                    SqlCommand bookTicketCommand = new SqlCommand("INSERT INTO Booking (TrainNumber, TicketClass, SeatPreference, PassengerName, BookingDate, DateOfTravel, TotalAmount, NumberOfTickets, TicketPrice) VALUES (@TrainNumber, @TicketClass, @SeatPreference, @PassengerName, GETDATE(), @DateOfTravel, @TotalAmount, @NumberOfTickets, @TicketPrice); SELECT SCOPE_IDENTITY();", connection);
                                     bookTicketCommand.Parameters.AddWithValue("@TrainNumber", trainNumber);
                                     bookTicketCommand.Parameters.AddWithValue("@TicketClass", ticketClass);
                                     bookTicketCommand.Parameters.AddWithValue("@SeatPreference", seatPreference);
@@ -550,15 +587,16 @@ namespace TrainReservationSystem
                                     bookTicketCommand.Parameters.AddWithValue("@TotalAmount", totalAmount);
                                     bookTicketCommand.Parameters.AddWithValue("@NumberOfTickets", numberOfTickets);
                                     bookTicketCommand.Parameters.AddWithValue("@TicketPrice", ticketPrice);
-                                    bookTicketCommand.ExecuteNonQuery();
 
-                                 
+                                    int bookingID = Convert.ToInt32(bookTicketCommand.ExecuteScalar());
+
                                     SqlCommand updateBerthsCommand = new SqlCommand("UPDATE Train SET AvailableBerths = AvailableBerths - @NumberOfTickets WHERE TrainNumber = @TrainNumber", connection);
                                     updateBerthsCommand.Parameters.AddWithValue("@TrainNumber", trainNumber);
                                     updateBerthsCommand.Parameters.AddWithValue("@NumberOfTickets", numberOfTickets);
                                     updateBerthsCommand.ExecuteNonQuery();
 
                                     Console.WriteLine("Ticket booked successfully!");
+                                    Console.WriteLine($"Booking ID: {bookingID}");
                                     Console.WriteLine($"Booking Date: {DateTime.Now}");
                                     Console.WriteLine($"Ticket Price: {ticketPrice:C}");
                                     Console.WriteLine($"Total Amount: {totalAmount:C}");
@@ -589,6 +627,7 @@ namespace TrainReservationSystem
                 Console.WriteLine("Error booking ticket: " + ex.Message);
             }
         }
+
 
         static void PrintTicket(string connectionString)
         {
