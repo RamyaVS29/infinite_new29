@@ -1,0 +1,12 @@
+C:\ramya\Projects\P1\MyProjectOne\MyMiniPrj\MyMiniPrj\bin\Debug\MyMiniPrj.exe.config
+C:\ramya\Projects\P1\MyProjectOne\MyMiniPrj\MyMiniPrj\bin\Debug\MyMiniPrj.exe
+C:\ramya\Projects\P1\MyProjectOne\MyMiniPrj\MyMiniPrj\bin\Debug\MyMiniPrj.pdb
+C:\ramya\Projects\P1\MyProjectOne\MyMiniPrj\MyMiniPrj\bin\Debug\EntityFramework.dll
+C:\ramya\Projects\P1\MyProjectOne\MyMiniPrj\MyMiniPrj\bin\Debug\EntityFramework.SqlServer.dll
+C:\ramya\Projects\P1\MyProjectOne\MyMiniPrj\MyMiniPrj\bin\Debug\EntityFramework.xml
+C:\ramya\Projects\P1\MyProjectOne\MyMiniPrj\MyMiniPrj\bin\Debug\EntityFramework.SqlServer.xml
+C:\ramya\Projects\P1\MyProjectOne\MyMiniPrj\MyMiniPrj\obj\Debug\MyMiniPrj.csproj.AssemblyReference.cache
+C:\ramya\Projects\P1\MyProjectOne\MyMiniPrj\MyMiniPrj\obj\Debug\MyMiniPrj.csproj.CoreCompileInputs.cache
+C:\ramya\Projects\P1\MyProjectOne\MyMiniPrj\MyMiniPrj\obj\Debug\MyMiniPrj.csproj.CopyComplete
+C:\ramya\Projects\P1\MyProjectOne\MyMiniPrj\MyMiniPrj\obj\Debug\MyMiniPrj.exe
+C:\ramya\Projects\P1\MyProjectOne\MyMiniPrj\MyMiniPrj\obj\Debug\MyMiniPrj.pdb

@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="MyMiniPrjDBModelStoreContainer" CdmEntityContainer="MyMiniPrjDBEntities">
+    <EntitySetMapping Name="Bookings">
+      <EntityTypeMapping TypeName="MyMiniPrjDBModel.Booking">
+        <MappingFragment StoreEntitySet="Booking">
+          <ScalarProperty Name="BookingID" ColumnName="BookingID" />
+          <ScalarProperty Name="TrainNumber" ColumnName="TrainNumber" />
+          <ScalarProperty Name="TicketClass" ColumnName="TicketClass" />
+          <ScalarProperty Name="SeatPreference" ColumnName="SeatPreference" />
+          <ScalarProperty Name="PassengerName" ColumnName="PassengerName" />
+          <ScalarProperty Name="BookingDate" ColumnName="BookingDate" />
+          <ScalarProperty Name="DateOfTravel" ColumnName="DateOfTravel" />
+          <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+          <ScalarProperty Name="NumberOfTickets" ColumnName="NumberOfTickets" />
+          <ScalarProperty Name="TicketPrice" ColumnName="TicketPrice" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Cancellations">
+      <EntityTypeMapping TypeName="MyMiniPrjDBModel.Cancellation">
+        <MappingFragment StoreEntitySet="Cancellation">
+          <ScalarProperty Name="CancellationID" ColumnName="CancellationID" />
+          <ScalarProperty Name="BookingID" ColumnName="BookingID" />
+          <ScalarProperty Name="TrainNumber" ColumnName="TrainNumber" />
+          <ScalarProperty Name="DateOfCancellation" ColumnName="DateOfCancellation" />
+          <ScalarProperty Name="NumberOfTickets" ColumnName="NumberOfTickets" />
+          <ScalarProperty Name="NumberOfTicketsToCancel" ColumnName="NumberOfTicketsToCancel" />
+          <ScalarProperty Name="Reason" ColumnName="Reason" />
+          <ScalarProperty Name="Refund" ColumnName="Refund" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Trains">
+      <EntityTypeMapping TypeName="MyMiniPrjDBModel.Train">
+        <MappingFragment StoreEntitySet="Train">
+          <ScalarProperty Name="TrainNumber" ColumnName="TrainNumber" />
+          <ScalarProperty Name="TrainName" ColumnName="TrainName" />
+          <ScalarProperty Name="Source" ColumnName="Source" />
+          <ScalarProperty Name="Destination" ColumnName="Destination" />
+          <ScalarProperty Name="TicketClass" ColumnName="TicketClass" />
+          <ScalarProperty Name="TicketPrice" ColumnName="TicketPrice" />
+          <ScalarProperty Name="TotalBerths" ColumnName="TotalBerths" />
+          <ScalarProperty Name="AvailableBerths" ColumnName="AvailableBerths" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="DepartureTime" ColumnName="DepartureTime" />
+          <ScalarProperty Name="ArrivalTime" ColumnName="ArrivalTime" />
+          <ScalarProperty Name="DaysOfOperation" ColumnName="DaysOfOperation" />
+          <ScalarProperty Name="Stops" ColumnName="Stops" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="AddTrain" FunctionName="MyMiniPrjDBModel.Store.AddTrain" />
+    <FunctionImportMapping FunctionImportName="BookTicket" FunctionName="MyMiniPrjDBModel.Store.BookTicket">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="MyMiniPrjDBModel.BookTicket_Result">
+          <ScalarProperty Name="BookingID" ColumnName="BookingID" />
+          <ScalarProperty Name="TrainNumber" ColumnName="TrainNumber" />
+          <ScalarProperty Name="TicketClass" ColumnName="TicketClass" />
+          <ScalarProperty Name="SeatPreference" ColumnName="SeatPreference" />
+          <ScalarProperty Name="PassengerName" ColumnName="PassengerName" />
+          <ScalarProperty Name="BookingDate" ColumnName="BookingDate" />
+          <ScalarProperty Name="DateOfTravel" ColumnName="DateOfTravel" />
+          <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+          <ScalarProperty Name="NumberOfTickets" ColumnName="NumberOfTickets" />
+          <ScalarProperty Name="TicketPrice" ColumnName="TicketPrice" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="CancelTicket" FunctionName="MyMiniPrjDBModel.Store.CancelTicket" />
+    <FunctionImportMapping FunctionImportName="ChangeTicketClass" FunctionName="MyMiniPrjDBModel.Store.ChangeTicketClass" />
+    <FunctionImportMapping FunctionImportName="DeleteTrain" FunctionName="MyMiniPrjDBModel.Store.DeleteTrain" />
+    <FunctionImportMapping FunctionImportName="PrintTicket" FunctionName="MyMiniPrjDBModel.Store.PrintTicket">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="MyMiniPrjDBModel.PrintTicket_Result">
+          <ScalarProperty Name="BookingID" ColumnName="BookingID" />
+          <ScalarProperty Name="PassengerName" ColumnName="PassengerName" />
+          <ScalarProperty Name="BookingDate" ColumnName="BookingDate" />
+          <ScalarProperty Name="DateOfTravel" ColumnName="DateOfTravel" />
+          <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+          <ScalarProperty Name="NumberOfTickets" ColumnName="NumberOfTickets" />
+          <ScalarProperty Name="TicketPrice" ColumnName="TicketPrice" />
+          <ScalarProperty Name="TrainNumber" ColumnName="TrainNumber" />
+          <ScalarProperty Name="TrainName" ColumnName="TrainName" />
+          <ScalarProperty Name="Source" ColumnName="Source" />
+          <ScalarProperty Name="Destination" ColumnName="Destination" />
+          <ScalarProperty Name="TicketClass" ColumnName="TicketClass" />
+          <ScalarProperty Name="DepartureTime" ColumnName="DepartureTime" />
+          <ScalarProperty Name="ArrivalTime" ColumnName="ArrivalTime" />
+          <ScalarProperty Name="DaysOfOperation" ColumnName="DaysOfOperation" />
+          <ScalarProperty Name="Stops" ColumnName="Stops" />
+          <ScalarProperty Name="SeatPreference" ColumnName="SeatPreference" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="UpdateInactiveTrain" FunctionName="MyMiniPrjDBModel.Store.UpdateInactiveTrain" />
+    <FunctionImportMapping FunctionImportName="ViewAllBookings" FunctionName="MyMiniPrjDBModel.Store.ViewAllBookings">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="MyMiniPrjDBModel.ViewAllBookings_Result">
+          <ScalarProperty Name="BookingID" ColumnName="BookingID" />
+          <ScalarProperty Name="TrainNumber" ColumnName="TrainNumber" />
+          <ScalarProperty Name="TicketClass" ColumnName="TicketClass" />
+          <ScalarProperty Name="SeatPreference" ColumnName="SeatPreference" />
+          <ScalarProperty Name="PassengerName" ColumnName="PassengerName" />
+          <ScalarProperty Name="BookingDate" ColumnName="BookingDate" />
+          <ScalarProperty Name="DateOfTravel" ColumnName="DateOfTravel" />
+          <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+          <ScalarProperty Name="NumberOfTickets" ColumnName="NumberOfTickets" />
+          <ScalarProperty Name="TicketPrice" ColumnName="TicketPrice" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="ViewAllCancellations" FunctionName="MyMiniPrjDBModel.Store.ViewAllCancellations">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="MyMiniPrjDBModel.ViewAllCancellations_Result">
+          <ScalarProperty Name="CancellationID" ColumnName="CancellationID" />
+          <ScalarProperty Name="BookingID" ColumnName="BookingID" />
+          <ScalarProperty Name="TrainNumber" ColumnName="TrainNumber" />
+          <ScalarProperty Name="DateOfCancellation" ColumnName="DateOfCancellation" />
+          <ScalarProperty Name="NumberOfTickets" ColumnName="NumberOfTickets" />
+          <ScalarProperty Name="NumberOfTicketsToCancel" ColumnName="NumberOfTicketsToCancel" />
+          <ScalarProperty Name="Reason" ColumnName="Reason" />
+          <ScalarProperty Name="Refund" ColumnName="Refund" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="ViewTrain" FunctionName="MyMiniPrjDBModel.Store.ViewTrain">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="MyMiniPrjDBModel.ViewTrain_Result">
+          <ScalarProperty Name="TrainNumber" ColumnName="TrainNumber" />
+          <ScalarProperty Name="TrainName" ColumnName="TrainName" />
+          <ScalarProperty Name="Source" ColumnName="Source" />
+          <ScalarProperty Name="Destination" ColumnName="Destination" />
+          <ScalarProperty Name="TicketClass" ColumnName="TicketClass" />
+          <ScalarProperty Name="TicketPrice" ColumnName="TicketPrice" />
+          <ScalarProperty Name="TotalBerths" ColumnName="TotalBerths" />
+          <ScalarProperty Name="AvailableBerths" ColumnName="AvailableBerths" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="DepartureTime" ColumnName="DepartureTime" />
+          <ScalarProperty Name="ArrivalTime" ColumnName="ArrivalTime" />
+          <ScalarProperty Name="DaysOfOperation" ColumnName="DaysOfOperation" />
+          <ScalarProperty Name="Stops" ColumnName="Stops" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+  </EntityContainerMapping>
+</Mapping>
