@@ -11,41 +11,41 @@ namespace TrainReservationSystem
         {
             Console.ForegroundColor = ConsoleColor.DarkGreen;
 
-            // Get the width of the console window
+            
             int windowWidth = Console.WindowWidth;
 
-            // Set the initial left position for the text
+           
             int left = 0;
 
-            // Continuously update the position of the text until it reaches the right edge of the console
+            
             while (left <= windowWidth)
             {
-                Console.Clear(); // Clear the console to update the text position
+                Console.Clear(); 
 
-                // Set the cursor position
+             
                 Console.SetCursorPosition(left, Console.CursorTop);
 
-                // Write the text
+                
                 Console.WriteLine("Welcome to TRAIN RESERVATION SYSTEM");
 
-                // Reset console text color
+              
                 Console.ResetColor();
 
-                // Pause for a short duration to control the speed of movement
+               
                 Thread.Sleep(50);
 
-                // Check if Enter key is pressed
+              
                 if (Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.Enter)
                 {
-                    // Break out of the loop if Enter key is pressed
+                    
                     break;
                 }
 
-                // Increment the left position
+              
                 left++;
             }
 
-            // Keep the console open until a key is pressed
+          
             Console.ReadKey();
 
             string connectionString = "Server=ICS-LT-9S4R9K3;Database=MyNewPrjDB;Integrated Security=True;";
@@ -183,7 +183,7 @@ namespace TrainReservationSystem
         }
         static void AddTrain(string connectionString)
         {
-            // Prompt the user for train details
+            
             Console.WriteLine("Enter Train Number:");
             int trainNumber = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Enter Train Name:");
@@ -213,14 +213,14 @@ namespace TrainReservationSystem
 
             try
             {
-                // Call the stored procedure to add a train
+                // Calls the stored procedure to add a train
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
                     SqlCommand command = new SqlCommand("AddTrain", connection);
                     command.CommandType = CommandType.StoredProcedure;
 
-                    // Add parameters
+                    
                     command.Parameters.AddWithValue("@TrainNumber", trainNumber);
                     command.Parameters.AddWithValue("@TrainName", trainName);
                     command.Parameters.AddWithValue("@Source", source);
@@ -235,7 +235,7 @@ namespace TrainReservationSystem
                     command.Parameters.AddWithValue("@DaysOfOperation", daysOfOperation);
                     command.Parameters.AddWithValue("@Stops", stops);
 
-                    // Execute the command
+                   
                     command.ExecuteNonQuery();
 
                     Console.WriteLine("Train added successfully!");
@@ -252,11 +252,11 @@ namespace TrainReservationSystem
         {
             try
             {
-                // Get input for train number
+              
                 Console.WriteLine("Enter Train Number:");
                 int trainNumber = Convert.ToInt32(Console.ReadLine());
 
-                // Connect to the database and check train status
+                
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
@@ -266,10 +266,10 @@ namespace TrainReservationSystem
 
                     if (status == "Inactive")
                     {
-                        // Train is inactive, proceed with updating
+                      
                         Console.WriteLine("Train is inactive. Proceeding with update...");
 
-                        // Get input for other train details
+                       
                         Console.WriteLine("Enter Train Name:");
                         string trainName = Console.ReadLine();
                         Console.WriteLine("Enter Source:");
@@ -295,7 +295,7 @@ namespace TrainReservationSystem
                         Console.WriteLine("Enter Stops:");
                         int stops = Convert.ToInt32(Console.ReadLine());
 
-                        // Call the stored procedure to update train
+                      
                         SqlCommand command = new SqlCommand("UpdateInactiveTrain", connection);
                         command.CommandType = CommandType.StoredProcedure;
                         command.Parameters.AddWithValue("@TrainNumber", trainNumber);
@@ -317,7 +317,7 @@ namespace TrainReservationSystem
                     }
                     else
                     {
-                        // Train is not inactive, cannot proceed with update
+                        
                         Console.WriteLine("Cannot update train details. Train is not inactive.");
                     }
                 }
@@ -333,11 +333,11 @@ namespace TrainReservationSystem
         {
             try
             {
-                // Get input for train number
+                
                 Console.WriteLine("Enter Train Number:");
                 int trainNumber = Convert.ToInt32(Console.ReadLine());
 
-                // Connect to the database and call the stored procedure
+              
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
@@ -370,13 +370,13 @@ namespace TrainReservationSystem
                 {
                     connection.Open();
 
-                    // Create command to select all bookings
+                   
                     SqlCommand command = new SqlCommand("SELECT * FROM Booking", connection);
 
-                    // Execute the command
+                  
                     SqlDataReader reader = command.ExecuteReader();
 
-                    // Check if there are any rows returned
+                  
                     if (reader.HasRows)
                     {
                         Console.WriteLine("All Bookings:");
@@ -406,13 +406,13 @@ namespace TrainReservationSystem
                 {
                     connection.Open();
 
-                    // Create command to select all cancellations
+                   
                     SqlCommand command = new SqlCommand("SELECT * FROM Cancellation", connection);
 
-                    // Execute the command
+                  
                     SqlDataReader reader = command.ExecuteReader();
 
-                    // Check if there are any rows returned
+                  
                     if (reader.HasRows)
                     {
                         Console.WriteLine("All Cancellations:");
@@ -448,19 +448,19 @@ namespace TrainReservationSystem
 
                     SqlCommand command = new SqlCommand("SELECT * FROM Train", connection);
 
-                    // Execute the command
+              
                     SqlDataReader reader = command.ExecuteReader();
 
-                    // Check if there are any available trains
+                    
                     if (reader.HasRows)
                     {
-                        // Print the header
+                     
                         Console.WriteLine("Available Trains:");
                         Console.WriteLine("-----------------------------------------------------------------------------------------------------------------");
                         Console.WriteLine("|Train Number| Train Name | Source  | Destination| Ticket Class | Departure Time | Arrival Time | Days of Operation| Stops|");
                         Console.WriteLine("-----------------------------------------------------------------------------------------------------------------");
 
-                        // Print each available train
+                       
                         while (reader.Read())
                         {
                             Console.WriteLine("{0,-5} {1,-15} {2,-15} {3,-15} {4,-10} {5,-8} {6,-8} {7,-15} {8,-5}", reader["TrainNumber"], reader["TrainName"], reader["Source"], reader["Destination"], reader["TicketClass"], reader["DepartureTime"], reader["ArrivalTime"], reader["DaysOfOperation"], reader["Stops"]);
@@ -468,7 +468,7 @@ namespace TrainReservationSystem
 
                         }
 
-                        // Print the footer
+                    
                         Console.WriteLine("-----------------------------------------------------------------------------------------------------------------");
                     }
                     else
@@ -495,7 +495,7 @@ namespace TrainReservationSystem
                 {
                     connection.Open();
 
-                    // Check if the train exists and is active
+                    
                     SqlCommand checkTrainStatusCommand = new SqlCommand("SELECT Status, AvailableBerths FROM Train WHERE TrainNumber = @TrainNumber", connection);
                     checkTrainStatusCommand.Parameters.AddWithValue("@TrainNumber", trainNumber);
                     SqlDataReader reader = checkTrainStatusCommand.ExecuteReader();
@@ -512,7 +512,7 @@ namespace TrainReservationSystem
                             Console.WriteLine("Enter Ticket Class:");
                             string ticketClass = Console.ReadLine();
 
-                            // Check available berths for the specified class
+                           
                             SqlCommand checkAvailableBerthsCommand = new SqlCommand("SELECT TicketPrice FROM Train WHERE TrainNumber = @TrainNumber AND TicketClass = @TicketClass", connection);
                             checkAvailableBerthsCommand.Parameters.AddWithValue("@TrainNumber", trainNumber);
                             checkAvailableBerthsCommand.Parameters.AddWithValue("@TicketClass", ticketClass);
@@ -522,7 +522,7 @@ namespace TrainReservationSystem
                             {
                                 decimal ticketPrice = (decimal)classReader["TicketPrice"];
 
-                                classReader.Close(); // Close the second SqlDataReader here
+                                classReader.Close(); 
 
                                 Console.WriteLine("Enter Seat Preference:");
                                 string seatPreference = Console.ReadLine();
@@ -538,10 +538,9 @@ namespace TrainReservationSystem
 
                                 if (availableBerths >= numberOfTickets)
                                 {
-                                    // Calculate total amount
+                                    
                                     decimal totalAmount = ticketPrice * numberOfTickets;
 
-                                    // Book the ticket
                                     SqlCommand bookTicketCommand = new SqlCommand("INSERT INTO Booking (TrainNumber, TicketClass, SeatPreference, PassengerName, BookingDate, DateOfTravel, TotalAmount, NumberOfTickets, TicketPrice) VALUES (@TrainNumber, @TicketClass, @SeatPreference, @PassengerName, GETDATE(), @DateOfTravel, @TotalAmount, @NumberOfTickets, @TicketPrice)", connection);
                                     bookTicketCommand.Parameters.AddWithValue("@TrainNumber", trainNumber);
                                     bookTicketCommand.Parameters.AddWithValue("@TicketClass", ticketClass);
@@ -553,7 +552,7 @@ namespace TrainReservationSystem
                                     bookTicketCommand.Parameters.AddWithValue("@TicketPrice", ticketPrice);
                                     bookTicketCommand.ExecuteNonQuery();
 
-                                    // Update available berths
+                                 
                                     SqlCommand updateBerthsCommand = new SqlCommand("UPDATE Train SET AvailableBerths = AvailableBerths - @NumberOfTickets WHERE TrainNumber = @TrainNumber", connection);
                                     updateBerthsCommand.Parameters.AddWithValue("@TrainNumber", trainNumber);
                                     updateBerthsCommand.Parameters.AddWithValue("@NumberOfTickets", numberOfTickets);
@@ -657,7 +656,7 @@ namespace TrainReservationSystem
                 {
                     connection.Open();
 
-                    // Retrieve booking details
+               
                     SqlCommand retrieveBookingCommand = new SqlCommand("SELECT TOP 1 TrainNumber, NumberOfTickets, TicketPrice FROM Booking WHERE BookingID = @BookingID", connection);
                     retrieveBookingCommand.Parameters.AddWithValue("@BookingID", bookingID);
                     SqlDataReader reader = retrieveBookingCommand.ExecuteReader();
@@ -674,24 +673,24 @@ namespace TrainReservationSystem
 
                         if (numberOfTicketsToCancel <= NumberOfTickets)
                         {
-                            // Calculate refund amount
+                           
                             decimal refund = ticketPrice * numberOfTicketsToCancel;
 
                             Console.WriteLine("Enter reason for cancellation:");
                             string cancellationReason = Console.ReadLine();
 
-                            // Begin transaction for cancellation
+                            
                             SqlTransaction transaction = connection.BeginTransaction();
 
                             try
                             {
-                                // Update available berths
+                              
                                 SqlCommand updateBerthsCommand = new SqlCommand("UPDATE Train SET AvailableBerths = AvailableBerths + @NumberOfTickets WHERE TrainNumber = @TrainNumber", connection, transaction);
                                 updateBerthsCommand.Parameters.AddWithValue("@TrainNumber", trainNumber);
                                 updateBerthsCommand.Parameters.AddWithValue("@NumberOfTickets", numberOfTicketsToCancel);
                                 updateBerthsCommand.ExecuteNonQuery();
 
-                                // Insert cancellation record
+                               
                                 SqlCommand insertCancellationCommand = new SqlCommand("INSERT INTO Cancellation (BookingID, DateOfCancellation, TrainNumber, NumberOfTickets, NumberOfTicketsToCancel, Reason, Refund) VALUES (@BookingID, GETDATE(), @TrainNumber, @NumberOfTickets, @NumberOfTicketsToCancel, @Reason, @Refund)", connection, transaction);
                                 insertCancellationCommand.Parameters.AddWithValue("@BookingID", bookingID);
                                 insertCancellationCommand.Parameters.AddWithValue("@TrainNumber", trainNumber);
@@ -709,14 +708,14 @@ namespace TrainReservationSystem
 
 
 
-                                // Commit transaction
+                              
                                 transaction.Commit();
 
                                 Console.WriteLine($"Ticket cancelled successfully. Refund amount: {refund:C}");
                             }
                             catch (Exception ex)
                             {
-                                // Rollback transaction on error
+                                
                                 transaction.Rollback();
                                 Console.WriteLine("Error cancelling ticket: " + ex.Message);
                             }
