@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MyNewPrjDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Booking">
+    <Key>
+      <PropertyRef Name="BookingID" />
+    </Key>
+    <Property Name="BookingID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TrainNumber" Type="int" />
+    <Property Name="TicketClass" Type="varchar" MaxLength="50" />
+    <Property Name="SeatPreference" Type="varchar" MaxLength="50" />
+    <Property Name="PassengerName" Type="varchar" MaxLength="100" />
+    <Property Name="BookingDate" Type="date" />
+    <Property Name="DateOfTravel" Type="date" />
+    <Property Name="TotalAmount" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="NumberOfTickets" Type="int" />
+    <Property Name="TicketPrice" Type="decimal" Precision="10" Scale="2" />
+  </EntityType>
+  <EntityType Name="Cancellation">
+    <Key>
+      <PropertyRef Name="CancellationID" />
+    </Key>
+    <Property Name="CancellationID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BookingID" Type="int" />
+    <Property Name="TrainNumber" Type="int" />
+    <Property Name="DateOfCancellation" Type="date" />
+    <Property Name="NumberOfTickets" Type="int" />
+    <Property Name="NumberOfTicketsToCancel" Type="int" />
+    <Property Name="Reason" Type="nvarchar" MaxLength="255" />
+    <Property Name="Refund" Type="decimal" Precision="10" Scale="2" />
+  </EntityType>
+  <EntityType Name="Train">
+    <Key>
+      <PropertyRef Name="TrainNumber" />
+    </Key>
+    <Property Name="TrainNumber" Type="int" Nullable="false" />
+    <Property Name="TrainName" Type="varchar" MaxLength="100" />
+    <Property Name="Source" Type="varchar" MaxLength="100" />
+    <Property Name="Destination" Type="varchar" MaxLength="100" />
+    <Property Name="TicketClass" Type="varchar" MaxLength="50" />
+    <Property Name="TicketPrice" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="TotalBerths" Type="int" />
+    <Property Name="AvailableBerths" Type="int" />
+    <Property Name="Status" Type="varchar" MaxLength="20" />
+    <Property Name="DepartureTime" Type="time" Precision="7" />
+    <Property Name="ArrivalTime" Type="time" Precision="7" />
+    <Property Name="DaysOfOperation" Type="varchar" MaxLength="250" />
+    <Property Name="Stops" Type="int" />
+  </EntityType>
+  <Association Name="FK__Booking__TrainNu__3B75D760">
+    <End Role="Train" Type="Self.Train" Multiplicity="0..1" />
+    <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Train">
+        <PropertyRef Name="TrainNumber" />
+      </Principal>
+      <Dependent Role="Booking">
+        <PropertyRef Name="TrainNumber" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Cancellat__Train__48CFD27E">
+    <End Role="Train" Type="Self.Train" Multiplicity="0..1" />
+    <End Role="Cancellation" Type="Self.Cancellation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Train">
+        <PropertyRef Name="TrainNumber" />
+      </Principal>
+      <Dependent Role="Cancellation">
+        <PropertyRef Name="TrainNumber" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="AddTrain" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="TrainNumber" Type="int" Mode="In" />
+    <Parameter Name="TrainName" Type="nvarchar" Mode="In" />
+    <Parameter Name="Source" Type="nvarchar" Mode="In" />
+    <Parameter Name="Destination" Type="nvarchar" Mode="In" />
+    <Parameter Name="TicketClass" Type="nvarchar" Mode="In" />
+    <Parameter Name="TicketPrice" Type="decimal" Mode="In" />
+    <Parameter Name="TotalBerths" Type="int" Mode="In" />
+    <Parameter Name="AvailableBerths" Type="int" Mode="In" />
+    <Parameter Name="Status" Type="nvarchar" Mode="In" />
+    <Parameter Name="DepartureTime" Type="time" Mode="In" />
+    <Parameter Name="ArrivalTime" Type="time" Mode="In" />
+    <Parameter Name="DaysOfOperation" Type="nvarchar" Mode="In" />
+    <Parameter Name="Stops" Type="int" Mode="In" />
+  </Function>
+  <Function Name="BookTicket" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="TrainNumber" Type="int" Mode="In" />
+    <Parameter Name="TicketClass" Type="varchar" Mode="In" />
+    <Parameter Name="SeatPreference" Type="varchar" Mode="In" />
+    <Parameter Name="PassengerName" Type="varchar" Mode="In" />
+    <Parameter Name="DateOfTravel" Type="date" Mode="In" />
+    <Parameter Name="NumberOfTickets" Type="int" Mode="In" />
+  </Function>
+  <Function Name="CancelTicket" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="BookingID" Type="int" Mode="In" />
+    <Parameter Name="NumberOfTicketsToCancel" Type="int" Mode="In" />
+    <Parameter Name="Reason" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="DeleteTrain" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="TrainNumber" Type="int" Mode="In" />
+  </Function>
+  <Function Name="PrintTicket" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="BookingID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="UpdateInactiveTrain" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="TrainNumber" Type="int" Mode="In" />
+    <Parameter Name="TrainName" Type="nvarchar" Mode="In" />
+    <Parameter Name="Source" Type="nvarchar" Mode="In" />
+    <Parameter Name="Destination" Type="nvarchar" Mode="In" />
+    <Parameter Name="TicketClass" Type="nvarchar" Mode="In" />
+    <Parameter Name="TicketPrice" Type="decimal" Mode="In" />
+    <Parameter Name="TotalBerths" Type="int" Mode="In" />
+    <Parameter Name="AvailableBerths" Type="int" Mode="In" />
+    <Parameter Name="Status" Type="nvarchar" Mode="In" />
+    <Parameter Name="DepartureTime" Type="time" Mode="In" />
+    <Parameter Name="ArrivalTime" Type="time" Mode="In" />
+    <Parameter Name="DaysOfOperation" Type="nvarchar" Mode="In" />
+    <Parameter Name="Stops" Type="int" Mode="In" />
+  </Function>
+  <Function Name="ViewAllBookings" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="ViewAllCancellations" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <EntityContainer Name="MyNewPrjDBModelStoreContainer">
+    <EntitySet Name="Booking" EntityType="Self.Booking" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Cancellation" EntityType="Self.Cancellation" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Train" EntityType="Self.Train" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Booking__TrainNu__3B75D760" Association="Self.FK__Booking__TrainNu__3B75D760">
+      <End Role="Train" EntitySet="Train" />
+      <End Role="Booking" EntitySet="Booking" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Cancellat__Train__48CFD27E" Association="Self.FK__Cancellat__Train__48CFD27E">
+      <End Role="Train" EntitySet="Train" />
+      <End Role="Cancellation" EntitySet="Cancellation" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
